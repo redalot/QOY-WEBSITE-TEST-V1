@@ -152,7 +152,7 @@ const Home = () => {
       <section className="py-32 bg-cavalry-blue text-center relative overflow-hidden">
         <div className="absolute top-0 left-0 w-full h-1 bg-qoy-yellow"></div>
         <div className="container mx-auto px-4 relative z-10">
-          <h2 className="text-5xl md:text-7xl font-black mb-8 text-qoy-yellow uppercase tracking-tighter">Ready to Enlist?</h2>
+          <h2 className="text-5xl md:text-7xl font-black mb-8 text-qoy-yellow uppercase tracking-tighter">Would you like to know more?</h2>
           <p className="text-2xl text-blue-100 mb-12 max-w-3xl mx-auto font-medium">
             Join our discord, speak to the recruitment team, and start your journey from Recruit to Trooper today.
           </p>
