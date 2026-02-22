@@ -130,19 +130,4 @@ const FeatureCard = ({ icon, title, description }) => (
   </motion.div>
 );
 
-const FeatureCard = ({ icon, title, description }) => (
-  <motion.div 
-    whileHover={{ y: -10 }}
-    className="bg-slate-700 p-8 rounded-2xl shadow-xl border border-slate-600 hover:border-yellow-500 transition-all"
-  >
-    <div className="mb-6 bg-slate-800 w-20 h-20 rounded-full flex items-center justify-center mx-auto shadow-inner">
-      {icon}
-    </div>
-    <h3 className="text-2xl font-bold mb-4 text-center text-white">{title}</h3>
-    <p className="text-slate-300 text-center leading-relaxed">
-      {description}
-    </p>
-  </motion.div>
-);
-
 export default Home;
