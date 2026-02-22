@@ -1,0 +1,34 @@
+@import "tailwindcss";
+
+@theme {
+  --color-cavalry-blue: #002366;
+  --color-cavalry-light: #003399;
+  --color-qoy-yellow: #FFD700;
+  --color-qoy-accent: #FDB813;
+  --font-sans: 'Inter', sans-serif;
+}
+
+body {
+  @apply bg-slate-900 text-white font-sans;
+}
+
+.cavalry-bg {
+  @apply bg-cavalry-blue;
+}
+
+.yellow-text {
+  @apply text-qoy-yellow;
+}
+
+.yellow-border {
+  @apply border-qoy-yellow;
+}
+
+@keyframes pulse-slow {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.8; }
+}
+
+.animate-pulse-slow {
+  animation: pulse-slow 3s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
