@@ -1,14 +1,29 @@
 import { motion } from 'framer-motion';
-import { Award, BookOpen, Target, Crosshair, Zap, Star, Shield, User } from 'lucide-react';
+import { BookOpen, Crosshair, Shield, User, Award } from 'lucide-react';
+
+// British Army Style Rank SVGs
+const Chevron = ({ count, color = "currentColor" }) => (
+  <svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+    {[...Array(count)].map((_, i) => (
+      <path 
+        key={i}
+        d={`M5 ${10 + i * 8} L20 ${22 + i * 8} L35 ${10 + i * 8}`} 
+        stroke={color} 
+        strokeWidth="6" 
+        strokeLinecap="square"
+      />
+    ))}
+  </svg>
+);
 
 const Training = () => {
   const ranks = [
-    { rank: 'Recruit', req: 'Join Discord & @RTT', color: 'bg-slate-700', icon: <User /> },
-    { rank: 'Junior Trooper', req: 'Phase 1 + 1 Op', color: 'bg-green-700', icon: <Award /> },
-    { rank: 'Trooper', req: 'Phase 1 Test (1+ Mo)', color: 'bg-cavalry-blue', icon: <Shield /> },
-    { rank: 'Lance Corporal', req: 'Phase 2 + Merit', color: 'bg-blue-700', icon: <Star /> },
-    { rank: 'Corporal', req: 'JLC + Merit', color: 'bg-indigo-800', icon: <Star /> },
-    { rank: 'Sergeant', req: 'SLC + Merit', color: 'bg-qoy-yellow', icon: <Star />, darkText: true },
+    { rank: 'Recruit', req: 'Join Discord & @RTT', color: 'bg-slate-700', icon: <User size={32} /> },
+    { rank: 'Junior Trooper', req: 'Phase 1 + 1 Op', color: 'bg-green-800', icon: <Award size={32} /> },
+    { rank: 'Trooper', req: 'Phase 1 Test (1+ Mo)', color: 'bg-cavalry-blue', icon: <Shield size={32} /> },
+    { rank: 'Lance Corporal', req: 'Phase 2 + Merit', color: 'bg-blue-700', icon: <Chevron count={1} color="white" /> },
+    { rank: 'Corporal', req: 'JLC + Merit', color: 'bg-indigo-900', icon: <Chevron count={2} color="white" /> },
+    { rank: 'Sergeant', req: 'SLC + Merit', color: 'bg-qoy-yellow', icon: <Chevron count={3} color="#002366" />, darkText: true },
   ];
 
   return (
@@ -26,11 +41,11 @@ const Training = () => {
         <section className="mb-32">
           <h2 className="text-4xl font-black text-center text-white mb-20 uppercase tracking-tighter">Career Progression</h2>
           
-          <div className="relative max-w-5xl mx-auto">
+          <div className="relative max-w-6xl mx-auto">
              {/* Path Line */}
-             <div className="absolute top-1/2 left-0 w-full h-1 bg-white/10 -translate-y-1/2 hidden lg:block"></div>
+             <div className="absolute top-1/2 left-0 w-full h-1 bg-white/5 -translate-y-1/2 hidden lg:block"></div>
 
-             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-6 gap-8">
+             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-6 gap-6">
                {ranks.map((r, i) => (
                  <motion.div 
                    key={i}
@@ -38,13 +53,15 @@ const Training = () => {
                    whileInView={{ opacity: 1, y: 0 }}
                    transition={{ delay: i * 0.1 }}
                    viewport={{ once: true }}
-                   className="relative flex flex-col items-center"
+                   className="relative flex flex-col items-center group"
                  >
-                   <div className={`${r.color} ${r.darkText ? 'text-cavalry-blue' : 'text-white'} w-20 h-20 rounded-full flex items-center justify-center shadow-2xl z-10 border-4 border-slate-900 mb-6 group-hover:scale-110 transition-transform`}>
-                     {r.icon}
+                   <div className={`${r.color} ${r.darkText ? 'text-cavalry-blue' : 'text-white'} w-24 h-24 rounded-sm flex items-center justify-center shadow-2xl z-10 border-2 border-white/10 mb-6 group-hover:scale-110 group-hover:border-qoy-yellow transition-all duration-300 transform rotate-45`}>
+                     <div className="-rotate-45">
+                        {r.icon}
+                     </div>
                    </div>
-                   <h3 className="text-xl font-black text-white mb-2 text-center uppercase tracking-tighter">{r.rank}</h3>
-                   <p className="text-sm text-gray-400 text-center font-bold uppercase tracking-widest leading-tight">{r.req}</p>
+                   <h3 className="text-xl font-black text-white mb-2 text-center uppercase tracking-tighter mt-4">{r.rank}</h3>
+                   <p className="text-xs text-gray-400 text-center font-bold uppercase tracking-widest leading-tight px-2">{r.req}</p>
                  </motion.div>
                ))}
              </div>

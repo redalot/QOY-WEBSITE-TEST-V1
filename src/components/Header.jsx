@@ -9,7 +9,7 @@ const Header = () => {
     <header className="bg-cavalry-blue text-white shadow-lg sticky top-0 z-50 border-b border-qoy-yellow/30">
       <div className="container mx-auto px-4 py-3 flex justify-between items-center">
         <Link to="/" className="flex items-center space-x-3 hover:opacity-80 transition-opacity">
-          <img src="qoy-badge.jpg" alt="QOY Badge" className="h-12 w-12 rounded-full border-2 border-qoy-yellow shadow-md" />
+          <img src={`${import.meta.env.BASE_URL}qoy-badge.jpg`} alt="QOY Badge" className="h-12 w-12 rounded-full border-2 border-qoy-yellow shadow-md" />
           <span className="text-xl font-bold tracking-wider text-qoy-yellow uppercase">Queen's Own Yeomanry</span>
         </Link>
 
