@@ -1,14 +1,45 @@
+import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 import { ArrowRight, Swords, Shield, Target } from 'lucide-react';
 
 const Home = () => {
+  const [currentImageIndex, setCurrentImageIndex] = useState(0);
+  const galleryImages = [
+    `${import.meta.env.BASE_URL}gallery-1.jpg`,
+    `${import.meta.env.BASE_URL}gallery-2.jpg`,
+    `${import.meta.env.BASE_URL}gallery-3.jpg`,
+    `${import.meta.env.BASE_URL}gallery-4.jpg`,
+    `${import.meta.env.BASE_URL}gallery-5.jpg`,
+    `${import.meta.env.BASE_URL}gallery-6.jpg`,
+  ];
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setCurrentImageIndex((prevIndex) => (prevIndex + 1) % galleryImages.length);
+    }, 5000); // Change image every 5 seconds
+    return () => clearInterval(timer);
+  }, [galleryImages.length]);
+
   return (
     <div className="bg-slate-900 text-white min-h-screen">
       {/* Hero Section */}
       <section className="relative h-[85vh] flex items-center justify-center bg-gradient-to-br from-cavalry-blue via-blue-950 to-black overflow-hidden border-b-4 border-qoy-yellow">
-        <div className="absolute inset-0 z-0 opacity-30">
-           <img src={`${import.meta.env.BASE_URL}gallery-1.jpg`} alt="QOY Banner" className="w-full h-full object-cover blur-sm opacity-20 scale-110" />
+        {/* Background Image Slider */}
+        <div className="absolute inset-0 z-0 overflow-hidden">
+          <AnimatePresence mode="wait">
+            <motion.img
+              key={currentImageIndex}
+              src={galleryImages[currentImageIndex]}
+              initial={{ opacity: 0, scale: 1.1 }}
+              animate={{ opacity: 0.2, scale: 1.05 }}
+              exit={{ opacity: 0, scale: 1 }}
+              transition={{ duration: 2, ease: "easeInOut" }}
+              className="w-full h-full object-cover blur-md absolute inset-0"
+            />
+          </AnimatePresence>
+          {/* Subtle Overlay to ensure readability */}
+          <div className="absolute inset-0 bg-black/40 z-1"></div>
         </div>
         
         <div className="relative z-10 text-center px-4 max-w-5xl mx-auto">
@@ -117,7 +148,7 @@ const Home = () => {
                 number="01"
                 title="Join Discord"
                 desc="Click the join button to enter our communications hub."
-                icon={<img src={`${import.meta.env.BASE_URL}vite.svg`} className="w-8 h-8 invert" alt="Step 1" />}
+                icon={<Target size={32} />}
               />
               <JoinStep 
                 number="02"
