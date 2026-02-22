@@ -2,13 +2,13 @@ import { motion } from 'framer-motion';
 
 const Gallery = () => {
   const images = [
-    { src: '/gallery-1.jpg', title: 'Operation Alpha' },
-    { src: '/gallery-2.jpg', title: 'Recon Patrol' },
-    { src: '/gallery-3.jpg', title: 'Urban Combat' },
-    { src: '/gallery-4.jpg', title: 'Night Ops' },
-    { src: '/gallery-5.jpg', title: 'Tactical Insertion' },
-    { src: '/gallery-6.jpg', title: 'Front Line Duties' },
-    { src: '/gallery-7.png', title: 'Medal TV Capture' },
+    { src: 'gallery-1.jpg', title: 'Operation Alpha' },
+    { src: 'gallery-2.jpg', title: 'Recon Patrol' },
+    { src: 'gallery-3.jpg', title: 'Urban Combat' },
+    { src: 'gallery-4.jpg', title: 'Night Ops' },
+    { src: 'gallery-5.jpg', title: 'Tactical Insertion' },
+    { src: 'gallery-6.jpg', title: 'Front Line Duties' },
+    { src: 'gallery-7.png', title: 'Medal TV Capture' },
   ];
 
   return (

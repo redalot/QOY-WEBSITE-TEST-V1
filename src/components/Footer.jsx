@@ -6,7 +6,7 @@ const Footer = () => {
           <h2 className="text-2xl font-bold text-qoy-yellow tracking-widest uppercase">Queen's Own Yeomanry</h2>
           <p className="text-gray-300 mt-2 text-sm italic">Arma 3 Milsim Unit</p>
           <div className="mt-4 flex justify-center md:justify-start">
-             <img src="/qoy-badge.jpg" alt="Badge Small" className="h-16 w-16 opacity-50 grayscale hover:grayscale-0 transition-all" />
+             <img src="qoy-badge.jpg" alt="Badge Small" className="h-16 w-16 opacity-50 grayscale hover:grayscale-0 transition-all" />
           </div>
         </div>
         

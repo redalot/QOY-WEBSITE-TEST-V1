@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion';
-import { Shield, Radio, Crosshair, BriefcaseMedical, Flame } from 'lucide-react';
+import { Shield, Radio, Crosshair, BriefcaseMedical, Flame, Target } from 'lucide-react';
 
 const Manual = () => {
   return (

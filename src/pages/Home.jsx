@@ -8,7 +8,7 @@ const Home = () => {
       {/* Hero Section */}
       <section className="relative h-[85vh] flex items-center justify-center bg-gradient-to-br from-cavalry-blue via-blue-950 to-black overflow-hidden border-b-4 border-qoy-yellow">
         <div className="absolute inset-0 z-0 opacity-30">
-           <img src="/gallery-1.jpg" alt="QOY Banner" className="w-full h-full object-cover blur-sm opacity-20 scale-110" />
+           <img src="gallery-1.jpg" alt="QOY Banner" className="w-full h-full object-cover blur-sm opacity-20 scale-110" />
         </div>
         
         <div className="relative z-10 text-center px-4 max-w-5xl mx-auto">
@@ -17,7 +17,7 @@ const Home = () => {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 1 }}
           >
-            <img src="/qoy-badge.jpg" alt="QOY Badge" className="mx-auto w-32 h-32 md:w-56 md:h-56 mb-8 rounded-full border-4 border-qoy-yellow shadow-[0_0_50px_rgba(255,215,0,0.3)] animate-pulse-slow" />
+            <img src="qoy-badge.jpg" alt="QOY Badge" className="mx-auto w-32 h-32 md:w-56 md:h-56 mb-8 rounded-full border-4 border-qoy-yellow shadow-[0_0_50px_rgba(255,215,0,0.3)] animate-pulse-slow" />
             <h1 className="text-5xl md:text-8xl font-black tracking-tighter mb-4 text-qoy-yellow uppercase drop-shadow-[0_2px_10px_rgba(0,0,0,0.8)]">
               Queen's Own Yeomanry
             </h1>
@@ -80,10 +80,10 @@ const Home = () => {
           </div>
 
           <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
-            <GalleryImg src="/gallery-1.jpg" />
-            <GalleryImg src="/gallery-2.jpg" />
-            <GalleryImg src="/gallery-3.jpg" />
-            <GalleryImg src="/gallery-4.jpg" />
+            <GalleryImg src="gallery-1.jpg" />
+            <GalleryImg src="gallery-2.jpg" />
+            <GalleryImg src="gallery-3.jpg" />
+            <GalleryImg src="gallery-4.jpg" />
           </div>
         </div>
       </section>
