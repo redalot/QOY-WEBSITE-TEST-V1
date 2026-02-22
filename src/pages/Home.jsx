@@ -24,6 +24,16 @@ const Home = () => {
             <p className="text-xl md:text-3xl text-blue-200 mb-10 font-bold tracking-widest uppercase opacity-90">
               Cavalry • Reconnaissance • Strike
             </p>
+
+            <div className="flex justify-center gap-8 mb-12 text-qoy-yellow/80 font-black uppercase tracking-widest text-sm md:text-lg">
+               <div className="flex items-center gap-2">
+                 <span className="text-white opacity-50">SINCE</span> 2022
+               </div>
+               <div className="w-1 h-6 bg-white/20"></div>
+               <div className="flex items-center gap-2">
+                 GLOBAL <span className="text-white opacity-50">COMMUNITY</span>
+               </div>
+            </div>
             
             <div className="flex flex-col sm:flex-row justify-center gap-6">
               <a href="https://discord.gg/4fjPfJFVgt" target="_blank" rel="noopener noreferrer" className="px-10 py-4 bg-qoy-yellow hover:bg-white text-cavalry-blue font-black rounded-sm transition-all transform hover:scale-105 shadow-[0_10px_20px_rgba(0,0,0,0.4)] flex items-center justify-center gap-2 uppercase tracking-tighter">
@@ -88,6 +98,56 @@ const Home = () => {
         </div>
       </section>
 
+      {/* Joining Process */}
+      <section className="py-24 bg-slate-900 border-t border-white/5">
+        <div className="container mx-auto px-4">
+          <div className="text-center mb-16">
+            <h2 className="text-4xl md:text-5xl font-black text-qoy-yellow mb-4 uppercase tracking-tighter">How to Join</h2>
+            <p className="text-gray-400 max-w-2xl mx-auto text-lg">
+              We keep things simple. No interviews, no complex applications—just show up and play.
+            </p>
+          </div>
+
+          <div className="relative max-w-6xl mx-auto">
+            {/* Connection Line (Desktop) */}
+            <div className="hidden lg:block absolute top-1/2 left-0 w-full h-1 bg-qoy-yellow/20 -translate-y-1/2"></div>
+            
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+              <JoinStep 
+                number="01"
+                title="Join Discord"
+                desc="Click the join button to enter our communications hub."
+                icon={<img src={`${import.meta.env.BASE_URL}vite.svg`} className="w-8 h-8 invert" alt="Step 1" />}
+              />
+              <JoinStep 
+                number="02"
+                title="Ping @RTT"
+                desc="Let the Recruit Training Team know you've arrived."
+                icon={<Target size={32} />}
+              />
+              <JoinStep 
+                number="03"
+                title="Read & Ask"
+                desc="Review the start guide and ask any questions you have."
+                icon={<ArrowRight size={32} />}
+              />
+              <JoinStep 
+                number="04"
+                title="Start Playing"
+                desc="Attend an op! Growth is based on merit and respect."
+                icon={<Swords size={32} />}
+              />
+            </div>
+
+            <div className="mt-16 bg-cavalry-blue/50 p-8 rounded-sm border border-qoy-yellow/30 text-center max-w-3xl mx-auto">
+               <p className="text-xl font-bold text-white italic">
+                 "No interviews or conditions—just respect the rules and your fellow members."
+               </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* Call to Action */}
       <section className="py-32 bg-cavalry-blue text-center relative overflow-hidden">
         <div className="absolute top-0 left-0 w-full h-1 bg-qoy-yellow"></div>
@@ -104,6 +164,24 @@ const Home = () => {
     </div>
   );
 };
+
+const JoinStep = ({ number, title, desc, icon }) => (
+  <motion.div 
+    whileHover={{ y: -10 }}
+    className="bg-slate-800 p-8 rounded-sm shadow-2xl border-2 border-white/5 hover:border-qoy-yellow transition-all z-10"
+  >
+    <div className="flex items-center justify-between mb-6">
+      <div className="text-qoy-yellow font-black text-2xl uppercase opacity-50">{number}</div>
+      <div className="bg-cavalry-blue w-14 h-14 rounded-full flex items-center justify-center border border-qoy-yellow/30 text-white">
+        {icon}
+      </div>
+    </div>
+    <h4 className="text-2xl font-black text-white mb-4 uppercase tracking-tighter">{title}</h4>
+    <p className="text-slate-400 font-medium leading-relaxed">
+      {desc}
+    </p>
+  </motion.div>
+);
 
 const GalleryImg = ({ src }) => (
   <motion.div 
