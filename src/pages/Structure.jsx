@@ -1,6 +1,9 @@
+import { useState } from 'react';
 import { motion } from 'framer-motion';
+import { Link } from 'react-router-dom';
 import PageHeader from '../components/PageHeader';
 import NatoSymbol from '../components/NatoSymbol';
+import { getLoadoutForRole } from '../data/loadouts';
 import {
   orbatMeta,
   assignedNcos,
@@ -17,34 +20,89 @@ const ACCENTS = {
 
 const isNco = (name) => assignedNcos.includes(name);
 
-/** A single ORBAT slot: role on the left, incumbent (or VACANT) on the right. */
-const Position = ({ role, callsign, name }) => (
-  <li className="flex items-baseline justify-between gap-3 border-b border-white/5 py-2 last:border-0">
+/**
+ * A single ORBAT slot: role on the left, incumbent (or VACANT) on the right.
+ * Where the Field Manual documents kit for the role, the row expands to show it.
+ */
+const Position = ({ role, callsign, name }) => {
+  const [showKit, setShowKit] = useState(false);
+  const loadout = getLoadoutForRole(role);
+
+  const roleLabel = (
     <span className="flex items-baseline gap-2 text-sm text-slate-400">
       {role}
       {callsign && (
         <span className="font-mono text-[10px] tracking-widest text-qoy-yellow/60">{callsign}</span>
       )}
     </span>
-    {name ? (
-      <span className="flex items-center gap-2 text-right text-sm font-semibold text-white">
-        {name}
-        {isNco(name) && (
-          <span
-            className="rounded-sm border border-qoy-yellow/40 px-1 font-mono text-[9px] tracking-widest text-qoy-yellow/80"
-            title="Holds an NCO appointment in addition to this position"
-          >
-            NCO
+  );
+
+  const occupant = name ? (
+    <span className="flex items-center gap-2 text-right text-sm font-semibold text-white">
+      {name}
+      {isNco(name) && (
+        <span
+          className="rounded-sm border border-qoy-yellow/40 px-1 font-mono text-[9px] tracking-widest text-qoy-yellow/80"
+          title="Holds an NCO appointment in addition to this position"
+        >
+          NCO
+        </span>
+      )}
+    </span>
+  ) : (
+    <span className="font-mono text-xs uppercase tracking-widest text-status-vacant/70">Vacant</span>
+  );
+
+  return (
+    <li className="border-b border-white/5 last:border-0">
+      {loadout ? (
+        <button
+          type="button"
+          onClick={() => setShowKit((v) => !v)}
+          aria-expanded={showKit}
+          className="flex w-full items-baseline justify-between gap-3 py-2 text-left transition-colors hover:text-qoy-yellow"
+        >
+          <span className="flex items-baseline gap-1.5">
+            {roleLabel}
+            <span
+              className="font-mono text-[9px] text-qoy-yellow/50"
+              aria-hidden="true"
+            >
+              {showKit ? '▾' : '▸'}
+            </span>
           </span>
-        )}
-      </span>
-    ) : (
-      <span className="font-mono text-xs uppercase tracking-widest text-status-vacant/70">
-        Vacant
-      </span>
-    )}
-  </li>
-);
+          {occupant}
+        </button>
+      ) : (
+        <div className="flex items-baseline justify-between gap-3 py-2">
+          {roleLabel}
+          {occupant}
+        </div>
+      )}
+
+      {loadout && showKit && (
+        <dl className="mb-2 border-l-2 border-qoy-yellow/30 bg-tac-900/60 px-3 py-2 text-xs">
+          <div className="flex justify-between gap-3">
+            <dt className="font-mono uppercase tracking-widest text-qoy-yellow/60">Primary</dt>
+            <dd className="text-right text-slate-300">{loadout.weapon}</dd>
+          </div>
+          {loadout.secondary && (
+            <div className="mt-1 flex justify-between gap-3">
+              <dt className="font-mono uppercase tracking-widest text-red-400/60">Secondary</dt>
+              <dd className="text-right text-slate-300">{loadout.secondary}</dd>
+            </div>
+          )}
+          {loadout.equipment && (
+            <div className="mt-1 flex justify-between gap-3">
+              <dt className="font-mono uppercase tracking-widest text-sky-400/60">Equipment</dt>
+              <dd className="text-right text-slate-300">{loadout.equipment}</dd>
+            </div>
+          )}
+        </dl>
+      )}
+    </li>
+  );
+};
 
 /** Small manning readout, e.g. 14/17. */
 const Strength = ({ filled, total }) => {
@@ -222,9 +280,18 @@ const Structure = () => {
         </div>
 
         {/* Footnote */}
-        <p className="mx-auto mt-16 max-w-3xl border-l-2 border-qoy-yellow/40 pl-4 text-sm italic text-slate-500">
-          {orbatMeta.note} ORBAT current as of {orbatMeta.updated}.
-        </p>
+        <div className="mx-auto mt-16 max-w-3xl border-l-2 border-qoy-yellow/40 pl-4">
+          <p className="text-sm italic text-slate-500">
+            {orbatMeta.note} ORBAT current as of {orbatMeta.updated}.
+          </p>
+          <p className="mt-2 text-sm text-slate-500">
+            Roles marked with an arrow expand to show their kit — full details in the{' '}
+            <Link to="/manual" className="text-qoy-yellow/80 underline hover:text-qoy-yellow">
+              Field Manual
+            </Link>
+            .
+          </p>
+        </div>
       </div>
     </div>
   );

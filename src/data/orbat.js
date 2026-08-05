@@ -1,134 +1,58 @@
 // Order of Battle — A Squadron, 1 Troop.
-// Transcribed from the unit ORBAT sheet. A null `name` means the position is
-// unfilled; the UI renders those as VACANT.
+//
+// The data itself lives in orbat.json, regenerated from the unit's ORBAT sheet
+// with `npm run sync:orbat`. Edit the sheet, not the JSON. A null `name` means
+// the position is unfilled; the UI renders those as VACANT.
 
-export const orbatMeta = {
-  updated: '28.07.2026',
-  formation: 'A Squadron · 1 Troop',
-  note: "Members hold a single position, with the exception of assigned NCOs.",
-};
+import orbat from './orbat.json';
 
-// NCOs carrying an appointment in addition to their listed position.
-export const assignedNcos = ['Cpl. Frog', 'LCpl. BT', 'A/LCpl. Felix'];
+export const orbatMeta = orbat.meta;
+export const assignedNcos = orbat.assignedNcos;
+export const troopHq = orbat.troopHq;
+export const sections = orbat.sections;
 
-export const troopHq = {
-  designator: '100',
-  name: 'Troop HQ',
-  callsign: '0',
-  echelon: 'platoon',
-  branch: 'recon',
-  positions: [{ role: 'Troop Commander', callsign: '0A', name: 'Lt. Sunny' }],
-};
-
-export const sections = [
-  {
-    designator: '110',
-    name: '1 Section',
-    callsign: '1-1',
-    accent: 'blue',
-    command: [{ role: 'Section Commander', name: 'SSgt. Heroic' }],
-    fireteams: [
-      {
-        designator: '111',
-        name: 'Charlie Fireteam',
-        callsign: '1-1C',
-        positions: [
-          { role: 'Fireteam Leader (2IC)', name: 'Cpl. Hofi' },
-          { role: 'LMG/LSW', name: null },
-          { role: 'Rifleman', name: 'Tpr. Ramsey' },
-          { role: 'Rifleman', name: 'Tpr. Kon' },
-          { role: 'Rifleman', name: 'Tpr. Mauve' },
-          { role: 'Rifleman (CLS)', name: 'SnrTpr. Mooch' },
-        ],
-      },
-      {
-        designator: '112',
-        name: 'Delta Fireteam',
-        callsign: '1-1D',
-        positions: [
-          { role: 'Fireteam Leader (3IC)', name: 'LCpl. BT' },
-          { role: 'Sharpshooter', name: 'SnrTpr. Greystone' },
-          { role: 'Rifleman', name: 'Tpr. Winter' },
-          { role: 'Medic', name: 'LCpl. Ven' },
-          { role: 'LMG/GPMG', name: 'SnrTpr. Kestrel' },
-          { role: 'Anti-Tank', name: 'SnrTpr. Tomato' },
-        ],
-      },
-    ],
-    overflow: [
-      { role: 'Rifleman', name: 'SnrTpr. Hunter' },
-      { role: 'Rifleman', name: 'Cpl. Guts' },
-      { role: 'Rifleman', name: null },
-      { role: 'Rifleman', name: null },
-    ],
-  },
-  {
-    designator: '120',
-    name: '2 Section',
-    callsign: '1-2',
-    accent: 'green',
-    command: [{ role: 'Section Commander', name: 'Sgt. Noble' }],
-    fireteams: [
-      {
-        designator: '121',
-        name: 'Charlie Fireteam',
-        callsign: '1-2C',
-        positions: [
-          { role: 'Fireteam Leader (2IC)', name: 'Cpl. Frog' },
-          { role: 'LMG/LSW', name: null },
-          { role: 'Assault Pioneer', name: 'LCpl. Tyro' },
-          { role: 'Rifleman', name: 'Tpr. Ward' },
-          { role: 'Rifleman', name: 'Cpl. Loggieman' },
-          { role: 'Rifleman (CLS)', name: null },
-        ],
-      },
-      {
-        designator: '122',
-        name: 'Delta Fireteam',
-        callsign: '1-2D',
-        positions: [
-          { role: 'Fireteam Leader (3IC)', name: 'A/LCpl. Bird' },
-          { role: 'Sharpshooter', name: 'A/LCpl. Felix' },
-          { role: 'Rifleman', name: null },
-          { role: 'Medic', name: 'LCpl. Smith' },
-          { role: 'LMG/GPMG', name: 'SnrTpr. Nick' },
-          { role: 'Anti-Tank', name: 'SnrTpr. Haydak' },
-        ],
-      },
-    ],
-    overflow: [
-      { role: 'Rifleman', name: 'LCpl. Versande' },
-      { role: 'Rifleman', name: 'Cpl. Smudger' },
-      { role: 'Rifleman', name: null },
-      { role: 'Rifleman', name: null },
-    ],
-  },
+/** Every position in a section, across command, fireteams and overflow. */
+const sectionPositions = (section) => [
+  ...section.command,
+  ...section.fireteams.flatMap((ft) => ft.positions),
+  ...section.overflow,
 ];
 
-/** Flattens every position in the ORBAT into a single list. */
-const allPositions = () => [
-  ...troopHq.positions,
-  ...sections.flatMap((section) => [
-    ...section.command,
-    ...section.fireteams.flatMap((ft) => ft.positions),
-    ...section.overflow,
-  ]),
-];
+const tally = (positions) => {
+  const filled = positions.filter((p) => p.name).length;
+  return { filled, total: positions.length, vacant: positions.length - filled };
+};
 
 /** Manning strength across the whole troop. */
-export const getStrength = () => {
-  const positions = allPositions();
-  const filled = positions.filter((p) => p.name).length;
-  return { filled, total: positions.length, vacant: positions.length - filled };
-};
+export const getStrength = () =>
+  tally([...troopHq.positions, ...sections.flatMap(sectionPositions)]);
 
 /** Manning strength for a single section, including its fireteams. */
-export const getSectionStrength = (section) => {
-  const positions = [
-    ...section.command,
-    ...section.fireteams.flatMap((ft) => ft.positions),
-    ...section.overflow,
-  ];
-  const filled = positions.filter((p) => p.name).length;
-  return { filled, total: positions.length, vacant: positions.length - filled };
+export const getSectionStrength = (section) => tally(sectionPositions(section));
+
+/** Vacant positions with the sub-unit they belong to, for recruitment display. */
+export const getVacancies = () => {
+  const vacancies = [];
+
+  for (const position of troopHq.positions) {
+    if (!position.name) vacancies.push({ ...position, unit: troopHq.name });
+  }
+
+  for (const section of sections) {
+    for (const position of section.command) {
+      if (!position.name) vacancies.push({ ...position, unit: section.name });
+    }
+    for (const ft of section.fireteams) {
+      for (const position of ft.positions) {
+        if (!position.name) {
+          vacancies.push({ ...position, unit: `${section.name} · ${ft.name}` });
+        }
+      }
+    }
+    for (const position of section.overflow) {
+      if (!position.name) vacancies.push({ ...position, unit: `${section.name} Overflow` });
+    }
+  }
+
+  return vacancies;
 };

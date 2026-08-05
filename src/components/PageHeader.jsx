@@ -1,8 +1,12 @@
-// Standard page header: a classification strip over a gridded regimental
-// banner. Used by every inner page so headings stay consistent.
+import PageMeta from './PageMeta';
 
-const PageHeader = ({ eyebrow, title, subtitle, meta }) => (
+// Standard page header: a classification strip over a gridded regimental
+// banner. Used by every inner page so headings stay consistent. It also sets
+// the document title, so every page that uses it gets correct metadata.
+
+const PageHeader = ({ eyebrow, title, subtitle, meta, description }) => (
   <header className="relative overflow-hidden border-b-2 border-qoy-yellow bg-cavalry-blue">
+    <PageMeta title={title} description={description ?? subtitle} />
     {/* Classification strip */}
     <div className="relative z-10 flex items-center justify-between gap-4 border-b border-qoy-yellow/25 bg-tac-950/60 px-4 py-1.5 font-mono text-[10px] uppercase tracking-[0.25em] text-qoy-yellow/70">
       <span>Queen's Own Yeomanry</span>

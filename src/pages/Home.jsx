@@ -2,7 +2,9 @@ import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ArrowRight, Swords, Shield, Target, Radio } from 'lucide-react';
-import { getStrength } from '../data/orbat';
+import { getStrength, getVacancies } from '../data/orbat';
+import OpCountdown from '../components/OpCountdown';
+import PageMeta from '../components/PageMeta';
 
 // Hoisted so the slider effect isn't rebuilding this array on every render.
 const HERO_SLIDES = [1, 2, 3, 4, 5, 6].map((n) => `${import.meta.env.BASE_URL}gallery-${n}.jpg`);
@@ -17,6 +19,7 @@ const GALLERY_PREVIEW = [
 const Home = () => {
   const [slide, setSlide] = useState(0);
   const strength = getStrength();
+  const vacancies = getVacancies();
 
   useEffect(() => {
     const timer = setInterval(() => {
@@ -27,6 +30,8 @@ const Home = () => {
 
   return (
     <div className="bg-tac-950 text-white">
+      <PageMeta description="Queen's Own Yeomanry — a light cavalry reconnaissance Arma 3 milsim unit. Operations Tuesday and Sunday, 20:00 UK. No interviews, no applications." />
+
       {/* ---------------- Hero ---------------- */}
       <section className="relative flex h-[88vh] min-h-[560px] items-center justify-center overflow-hidden border-b-2 border-qoy-yellow bg-cavalry-blue">
         <div className="absolute inset-0 z-0">
@@ -97,13 +102,27 @@ const Home = () => {
                 Join the Fight <ArrowRight size={18} />
               </a>
               <Link
-                to="/manual"
+                to="/start-guide"
                 className="border-2 border-white/40 px-10 py-4 font-display text-base uppercase tracking-widest text-white transition-all hover:border-qoy-yellow hover:text-qoy-yellow"
               >
-                View Field Manual
+                Read the Start Guide
               </Link>
             </div>
+
+            {vacancies.length > 0 && (
+              <p className="mt-6 font-mono text-xs uppercase tracking-[0.25em] text-slate-400">
+                <span className="text-status-warn">{vacancies.length} positions open</span> across
+                the troop
+              </p>
+            )}
           </motion.div>
+        </div>
+      </section>
+
+      {/* ---------------- Next op ---------------- */}
+      <section className="border-b border-white/5 bg-tac-950 py-10">
+        <div className="container mx-auto px-4">
+          <OpCountdown />
         </div>
       </section>
 

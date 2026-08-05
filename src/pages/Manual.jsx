@@ -1,59 +1,7 @@
 import { motion } from 'framer-motion';
 import { Info } from 'lucide-react';
 import PageHeader from '../components/PageHeader';
-
-const RIFLE_SECTION = {
-  image: 'qoy-rifle-section.png',
-  imageAlt: 'Rifle section composition infographic',
-  heading: 'Rifle Section Composition',
-  note: 'The rifle section is the core combat element of our unit, split into Charlie and Delta fireteams for tactical flexibility.',
-  groups: [
-    {
-      name: 'Charlie Fireteam',
-      loadouts: [
-        { role: 'Section Commander', weapon: 'L85A2 UGL', secondary: 'NLAW', equipment: 'LR Radio' },
-        { role: 'Sharpshooter', weapon: 'L129A1', secondary: 'ILAW' },
-        { role: 'Minimi Gunner', weapon: 'L110A1' },
-        { role: 'Medic', weapon: 'L85A2', secondary: 'ILAW' },
-      ],
-    },
-    {
-      name: 'Delta Fireteam',
-      loadouts: [
-        { role: 'Fire Team Leader', weapon: 'L85A2', secondary: 'NLAW' },
-        { role: 'Rifleman', weapon: 'L85A2', secondary: 'NLAW' },
-        { role: 'LSW Gunner', weapon: 'L86A2 LSW', secondary: 'ILAW' },
-        { role: 'Medic', weapon: 'L85A2', secondary: 'ILAW' },
-      ],
-    },
-  ],
-};
-
-const FIRE_SUPPORT = {
-  image: 'qoy-fire-support-group.png',
-  imageAlt: 'Fire support group composition infographic',
-  heading: 'Fire Support Group',
-  groups: [
-    {
-      name: 'Gun Team',
-      loadouts: [
-        { role: 'Section Commander', weapon: 'L85A2', secondary: 'Javelin Tube / NLAW', equipment: 'LR Radio' },
-        { role: 'GPMG Gunner', weapon: 'L7A2 GPMG', equipment: 'Static Tripod' },
-        { role: 'GPMG Gunner', weapon: 'L7A2 GPMG', equipment: 'Static Tripod' },
-        { role: 'Medic', weapon: 'L85A2', secondary: 'Javelin Tube / ILAW' },
-      ],
-    },
-    {
-      name: 'Anti-Tank Team',
-      loadouts: [
-        { role: 'Fire Team Leader', weapon: 'L85A2', secondary: 'Javelin Tube / NLAW' },
-        { role: 'Javelin Gunner', weapon: 'L85A2', secondary: 'Javelin Launcher + CLU' },
-        { role: 'MAAWs Gunner', weapon: 'L85A2', secondary: 'MAAWS Mk4' },
-        { role: 'Rifleman', weapon: 'L85A2', secondary: 'Javelin Tube / NLAW' },
-      ],
-    },
-  ],
-};
+import { rifleSection, fireSupportGroup } from '../data/loadouts';
 
 const LoadoutCard = ({ role, weapon, secondary, equipment }) => (
   <motion.article
@@ -148,8 +96,8 @@ const Manual = () => (
     />
 
     <div className="container mx-auto px-4 py-20">
-      <ManualSection data={RIFLE_SECTION} />
-      <ManualSection data={FIRE_SUPPORT} reverse />
+      <ManualSection data={rifleSection} />
+      <ManualSection data={fireSupportGroup} reverse />
     </div>
   </div>
 );

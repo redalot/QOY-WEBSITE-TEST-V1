@@ -7,6 +7,7 @@ import Structure from './pages/Structure';
 import Training from './pages/Training';
 import Manual from './pages/Manual';
 import Gallery from './pages/Gallery';
+import StartGuide from './pages/StartGuide';
 import NotFound from './pages/NotFound';
 import './index.css';
 
@@ -22,6 +23,7 @@ function App() {
           <Route path="/training" element={<Training />} />
           <Route path="/manual" element={<Manual />} />
           <Route path="/gallery" element={<Gallery />} />
+          <Route path="/start-guide" element={<StartGuide />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </Layout>

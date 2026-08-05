@@ -13,6 +13,10 @@ dist
 dist-ssr
 *.local
 
+# Full-resolution image originals. `npm run images` compresses these into
+# public/*.webp, which is what actually ships. Keep your own backup.
+image-source
+
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json

@@ -1,8 +1,10 @@
 import { Link } from 'react-router-dom';
 import { ArrowRight } from 'lucide-react';
+import PageMeta from '../components/PageMeta';
 
 const NotFound = () => (
   <div className="tac-grid flex min-h-[70vh] items-center justify-center bg-tac-950 px-4 py-24 text-center text-white">
+    <PageMeta title="Page Not Found" />
     <div>
       <p className="mb-4 font-mono text-[11px] uppercase tracking-[0.5em] text-qoy-yellow/60">
         Grid Reference Invalid
