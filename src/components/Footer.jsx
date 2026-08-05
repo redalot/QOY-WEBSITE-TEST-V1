@@ -1,4 +1,5 @@
 import { Link } from 'react-router-dom';
+import { badgeSrc } from '../data/media';
 
 const Footer = () => (
   <footer className="border-t-2 border-qoy-yellow bg-tac-950">
@@ -8,7 +9,7 @@ const Footer = () => (
       <div className="text-center md:text-left">
         <div className="flex items-center justify-center gap-3 md:justify-start">
           <img
-            src={`${import.meta.env.BASE_URL}qoy-badge.jpg`}
+            src={badgeSrc}
             alt=""
             className="h-14 w-14 rounded-full border border-qoy-yellow/40 opacity-80"
           />

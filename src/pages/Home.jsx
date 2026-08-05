@@ -5,16 +5,7 @@ import { ArrowRight, Swords, Shield, Target, Radio } from 'lucide-react';
 import { getStrength, getVacancies } from '../data/orbat';
 import OpCountdown from '../components/OpCountdown';
 import PageMeta from '../components/PageMeta';
-
-// Hoisted so the slider effect isn't rebuilding this array on every render.
-const HERO_SLIDES = [1, 2, 3, 4, 5, 6].map((n) => `${import.meta.env.BASE_URL}gallery-${n}.jpg`);
-
-const GALLERY_PREVIEW = [
-  { n: 1, alt: 'Section advancing during a live operation' },
-  { n: 2, alt: 'Reconnaissance patrol observing a treeline' },
-  { n: 3, alt: 'Urban clearance during FIBUA training' },
-  { n: 4, alt: 'Night insertion under NVGs' },
-];
+import { heroSlides, galleryPreview, badgeSrc } from '../data/media';
 
 const Home = () => {
   const [slide, setSlide] = useState(0);
@@ -23,7 +14,7 @@ const Home = () => {
 
   useEffect(() => {
     const timer = setInterval(() => {
-      setSlide((prev) => (prev + 1) % HERO_SLIDES.length);
+      setSlide((prev) => (prev + 1) % heroSlides.length);
     }, 5000);
     return () => clearInterval(timer);
   }, []);
@@ -38,7 +29,7 @@ const Home = () => {
           <AnimatePresence mode="wait">
             <motion.img
               key={slide}
-              src={HERO_SLIDES[slide]}
+              src={heroSlides[slide]}
               alt=""
               aria-hidden="true"
               initial={{ opacity: 0, scale: 1.12 }}
@@ -60,7 +51,7 @@ const Home = () => {
             transition={{ duration: 0.9 }}
           >
             <img
-              src={`${import.meta.env.BASE_URL}qoy-badge.jpg`}
+              src={badgeSrc}
               alt="Queen's Own Yeomanry cap badge"
               className="animate-pulse-slow mx-auto mb-8 h-28 w-28 rounded-full border-4 border-qoy-yellow shadow-[0_0_60px_rgba(255,215,0,0.25)] md:h-44 md:w-44"
             />
@@ -171,15 +162,15 @@ const Home = () => {
           </div>
 
           <div className="grid grid-cols-2 gap-5 md:grid-cols-4">
-            {GALLERY_PREVIEW.map(({ n, alt }) => (
+            {galleryPreview.map((image) => (
               <motion.div
-                key={n}
+                key={image.file}
                 whileHover={{ y: -6 }}
                 className="tac-bracket group relative overflow-hidden border border-white/10"
               >
                 <img
-                  src={`${import.meta.env.BASE_URL}gallery-${n}.jpg`}
-                  alt={alt}
+                  src={image.src}
+                  alt={image.alt}
                   loading="lazy"
                   className="h-56 w-full object-cover transition-transform duration-500 group-hover:scale-105"
                 />

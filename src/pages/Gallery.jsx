@@ -3,16 +3,7 @@ import { motion } from 'framer-motion';
 import { Maximize2 } from 'lucide-react';
 import PageHeader from '../components/PageHeader';
 import Lightbox from '../components/Lightbox';
-
-const IMAGES = [
-  { file: 'gallery-1.webp', title: 'Operation Alpha', alt: 'Section advancing during a live operation' },
-  { file: 'gallery-2.webp', title: 'Recon Patrol', alt: 'Reconnaissance patrol observing a treeline' },
-  { file: 'gallery-3.webp', title: 'Urban Combat', alt: 'Urban clearance during FIBUA training' },
-  { file: 'gallery-4.webp', title: 'Night Ops', alt: 'Night insertion under NVGs' },
-  { file: 'gallery-5.webp', title: 'Tactical Insertion', alt: 'Helicopter insertion onto an objective' },
-  { file: 'gallery-6.webp', title: 'Front Line Duties', alt: 'Troopers holding a defensive position' },
-  { file: 'gallery-7.webp', title: 'Medal TV Capture', alt: 'Clip captured during a live operation' },
-].map((img) => ({ ...img, src: `${import.meta.env.BASE_URL}${img.file}` }));
+import { galleryImages as IMAGES } from '../data/media';
 
 const Gallery = () => {
   const [openIndex, setOpenIndex] = useState(null);

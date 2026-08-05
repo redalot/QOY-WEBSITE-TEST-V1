@@ -1,6 +1,7 @@
 import { NavLink, Link } from 'react-router-dom';
 import { Menu, X } from 'lucide-react';
 import { useState } from 'react';
+import { badgeSrc } from '../data/media';
 
 const NAV_ITEMS = [
   { to: '/', label: 'Home' },
@@ -30,7 +31,7 @@ const Header = () => {
           onClick={() => setIsOpen(false)}
         >
           <img
-            src={`${import.meta.env.BASE_URL}qoy-badge.jpg`}
+            src={badgeSrc}
             alt=""
             className="h-11 w-11 rounded-full border-2 border-qoy-yellow shadow-md"
           />

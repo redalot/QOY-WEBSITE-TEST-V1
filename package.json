@@ -14,7 +14,9 @@
     "images": "node scripts/optimize-images.mjs",
     "sync:orbat": "node scripts/sync-orbat.mjs",
     "lint": "eslint .",
-    "format": "prettier --write \"src/**/*.{js,jsx,css}\" \"scripts/**/*.mjs\""
+    "format": "prettier --write \"src/**/*.{js,jsx,css}\" \"scripts/**/*.mjs\"",
+    "check:assets": "node scripts/check-assets.mjs",
+    "prebuild": "node scripts/check-assets.mjs"
   },
   "devDependencies": {
     "@eslint/js": "^10.0.1",
