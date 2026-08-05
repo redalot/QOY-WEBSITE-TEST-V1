@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://redalot.github.io/QOY-WEBSITE-TEST-V1/sitemap.xml
