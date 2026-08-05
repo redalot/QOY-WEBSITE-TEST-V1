@@ -1,50 +1,55 @@
 import { motion } from 'framer-motion';
+import PageHeader from '../components/PageHeader';
 
-const Gallery = () => {
-  const images = [
-    { src: `${import.meta.env.BASE_URL}gallery-1.jpg`, title: 'Operation Alpha' },
-    { src: `${import.meta.env.BASE_URL}gallery-2.jpg`, title: 'Recon Patrol' },
-    { src: `${import.meta.env.BASE_URL}gallery-3.jpg`, title: 'Urban Combat' },
-    { src: `${import.meta.env.BASE_URL}gallery-4.jpg`, title: 'Night Ops' },
-    { src: `${import.meta.env.BASE_URL}gallery-5.jpg`, title: 'Tactical Insertion' },
-    { src: `${import.meta.env.BASE_URL}gallery-6.jpg`, title: 'Front Line Duties' },
-    { src: `${import.meta.env.BASE_URL}gallery-7.png`, title: 'Medal TV Capture' },
-  ];
+const IMAGES = [
+  { file: 'gallery-1.jpg', title: 'Operation Alpha', alt: 'Section advancing during a live operation' },
+  { file: 'gallery-2.jpg', title: 'Recon Patrol', alt: 'Reconnaissance patrol observing a treeline' },
+  { file: 'gallery-3.jpg', title: 'Urban Combat', alt: 'Urban clearance during FIBUA training' },
+  { file: 'gallery-4.jpg', title: 'Night Ops', alt: 'Night insertion under NVGs' },
+  { file: 'gallery-5.jpg', title: 'Tactical Insertion', alt: 'Helicopter insertion onto an objective' },
+  { file: 'gallery-6.jpg', title: 'Front Line Duties', alt: 'Troopers holding a defensive position' },
+  { file: 'gallery-7.png', title: 'Medal TV Capture', alt: 'Clip captured during a live operation' },
+];
 
-  return (
-    <div className="bg-slate-900 text-white min-h-screen pb-20">
-      <div className="bg-blue-900 py-16 text-center">
-        <h1 className="text-4xl md:text-5xl font-bold text-yellow-400 mb-4">Unit Gallery</h1>
-        <p className="text-xl text-blue-100 max-w-2xl mx-auto px-4">
-          A visual record of our operations and training exercises.
-        </p>
-      </div>
+const Gallery = () => (
+  <div className="min-h-screen bg-tac-950 pb-24 text-white">
+    <PageHeader
+      eyebrow="Field Imagery"
+      title="Unit Gallery"
+      subtitle="A visual record of our operations and training exercises."
+      meta={`${IMAGES.length} Records`}
+    />
 
-      <div className="container mx-auto px-4 py-12">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {images.map((img, index) => (
-            <motion.div 
-              key={index}
-              initial={{ opacity: 0, scale: 0.9 }}
-              whileInView={{ opacity: 1, scale: 1 }}
-              transition={{ duration: 0.5, delay: index * 0.1 }}
-              viewport={{ once: true }}
-              className="group relative overflow-hidden rounded-xl shadow-2xl border-2 border-slate-800 hover:border-yellow-500 transition-all"
-            >
-              <img 
-                src={img.src} 
-                alt={img.title} 
-                className="w-full h-72 object-cover transition-transform duration-500 group-hover:scale-110"
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex items-end p-6">
-                <h3 className="text-xl font-bold text-yellow-400">{img.title}</h3>
-              </div>
-            </motion.div>
-          ))}
-        </div>
+    <div className="container mx-auto px-4 py-16">
+      <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+        {IMAGES.map((img, index) => (
+          <motion.figure
+            key={img.file}
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.4, delay: (index % 3) * 0.08 }}
+            viewport={{ once: true }}
+            className="tac-bracket group relative overflow-hidden border border-white/10 transition-colors hover:border-qoy-yellow/50"
+          >
+            <img
+              src={`${import.meta.env.BASE_URL}${img.file}`}
+              alt={img.alt}
+              loading="lazy"
+              className="h-72 w-full object-cover transition-transform duration-500 group-hover:scale-105"
+            />
+            <figcaption className="absolute inset-x-0 bottom-0 flex items-center justify-between gap-3 bg-gradient-to-t from-tac-950 via-tac-950/80 to-transparent px-5 pb-4 pt-12">
+              <span className="font-display text-lg uppercase tracking-wide text-white">
+                {img.title}
+              </span>
+              <span className="font-mono text-[10px] uppercase tracking-widest text-qoy-yellow/70">
+                {String(index + 1).padStart(3, '0')}
+              </span>
+            </figcaption>
+          </motion.figure>
+        ))}
       </div>
     </div>
-  );
-};
+  </div>
+);
 
 export default Gallery;

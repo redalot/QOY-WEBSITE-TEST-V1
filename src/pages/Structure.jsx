@@ -1,197 +1,233 @@
 import { motion } from 'framer-motion';
-import { Users, User, Shield } from 'lucide-react';
+import PageHeader from '../components/PageHeader';
+import NatoSymbol from '../components/NatoSymbol';
+import {
+  orbatMeta,
+  assignedNcos,
+  troopHq,
+  sections,
+  getStrength,
+  getSectionStrength,
+} from '../data/orbat';
 
-const Structure = () => {
+const ACCENTS = {
+  blue: { text: 'text-sky-300', border: 'border-sky-400/60', bar: 'bg-sky-400' },
+  green: { text: 'text-emerald-300', border: 'border-emerald-400/60', bar: 'bg-emerald-400' },
+};
+
+const isNco = (name) => assignedNcos.includes(name);
+
+/** A single ORBAT slot: role on the left, incumbent (or VACANT) on the right. */
+const Position = ({ role, callsign, name }) => (
+  <li className="flex items-baseline justify-between gap-3 border-b border-white/5 py-2 last:border-0">
+    <span className="flex items-baseline gap-2 text-sm text-slate-400">
+      {role}
+      {callsign && (
+        <span className="font-mono text-[10px] tracking-widest text-qoy-yellow/60">{callsign}</span>
+      )}
+    </span>
+    {name ? (
+      <span className="flex items-center gap-2 text-right text-sm font-semibold text-white">
+        {name}
+        {isNco(name) && (
+          <span
+            className="rounded-sm border border-qoy-yellow/40 px-1 font-mono text-[9px] tracking-widest text-qoy-yellow/80"
+            title="Holds an NCO appointment in addition to this position"
+          >
+            NCO
+          </span>
+        )}
+      </span>
+    ) : (
+      <span className="font-mono text-xs uppercase tracking-widest text-status-vacant/70">
+        Vacant
+      </span>
+    )}
+  </li>
+);
+
+/** Small manning readout, e.g. 14/17. */
+const Strength = ({ filled, total }) => {
+  const pct = Math.round((filled / total) * 100);
+  const tone =
+    pct === 100 ? 'text-status-ok' : pct >= 70 ? 'text-status-warn' : 'text-status-vacant';
+
   return (
-    <div className="bg-slate-900 text-white min-h-screen pb-20">
-      <div className="bg-blue-900 py-16 text-center">
-        <h1 className="text-4xl md:text-5xl font-bold text-yellow-400 mb-4">Unit ORBAT</h1>
-        <p className="text-xl text-blue-100 max-w-2xl mx-auto px-4">
-          Organizational Breakdown of 1 Troop, A Squadron, Queen's Own Yeomanry.
+    <div className="flex items-center gap-2 font-mono text-[11px] uppercase tracking-widest">
+      <span className={tone}>
+        {filled}/{total}
+      </span>
+      <span className="h-1 w-16 overflow-hidden rounded-full bg-white/10">
+        <span
+          className={`block h-full ${
+            pct === 100 ? 'bg-status-ok' : pct >= 70 ? 'bg-status-warn' : 'bg-status-vacant'
+          }`}
+          style={{ width: `${pct}%` }}
+        />
+      </span>
+    </div>
+  );
+};
+
+const FireteamCard = ({ fireteam }) => (
+  <motion.div
+    whileHover={{ y: -4 }}
+    className="tac-bracket border border-white/10 bg-tac-850 p-5 transition-colors hover:border-qoy-yellow/40"
+  >
+    <div className="mb-4 flex items-start justify-between gap-3 border-b border-white/10 pb-3">
+      <div>
+        <h4 className="font-display text-lg font-semibold uppercase tracking-wide text-white">
+          {fireteam.name}
+        </h4>
+        <p className="font-mono text-[11px] tracking-widest text-qoy-yellow/70">
+          {fireteam.designator} · {fireteam.callsign}
         </p>
       </div>
+      <NatoSymbol branch="infantry" echelon="team" color="#ffd700" className="h-9 w-12 shrink-0 opacity-70" />
+    </div>
+    <ul>
+      {fireteam.positions.map((p, i) => (
+        <Position key={i} {...p} />
+      ))}
+    </ul>
+  </motion.div>
+);
 
-      <div className="container mx-auto px-4 py-12">
-        {/* Troop HQ */}
-        <div className="flex justify-center mb-16">
-          <SectionCard 
-            title="1 Troop HQ"
-            color="border-yellow-500"
-            members={[
-              { role: "Troop Cmdr (0A)", name: "Lt. Sunny", rank: "Lt." },
-              { role: "Troop Sgt (0B)", name: "SSgt. Heroic", rank: "SSgt." }
-            ]}
-            icon={<Shield size={32} className="text-yellow-500" />}
+const SectionColumn = ({ section }) => {
+  const accent = ACCENTS[section.accent] ?? ACCENTS.blue;
+  const strength = getSectionStrength(section);
+
+  return (
+    <div className="space-y-6">
+      {/* Section header */}
+      <div className={`flex items-center justify-between gap-4 border-b-2 ${accent.border} pb-3`}>
+        <div className="flex items-center gap-3">
+          <NatoSymbol
+            branch="infantry"
+            echelon="section"
+            color="currentColor"
+            className={`h-10 w-14 ${accent.text}`}
           />
-        </div>
-
-        {/* Sections Grid */}
-        <div className="grid md:grid-cols-2 gap-12 max-w-6xl mx-auto">
-          
-          {/* 1 Section */}
-          <div className="space-y-8">
-            <h2 className="text-3xl font-bold text-center text-blue-300 border-b-2 border-blue-500 pb-2">1 Section</h2>
-            
-            <SectionCard 
-              title="Section Command"
-              color="border-blue-500"
-              members={[
-                { role: "Section Commander", name: "SSgt. Heroic", rank: "SSgt." }
-              ]}
-            />
-            
-            <div className="grid sm:grid-cols-2 gap-6">
-              <FireteamCard 
-                name="Charlie Fireteam (1-1C)"
-                leader={{ role: "Fireteam Leader (2IC)", name: "Cpl. Hofi" }}
-                members={[
-                  { role: "LMG/LSW", name: "VACANT" },
-                  { role: "Sharpshooter", name: "VACANT" },
-                  { role: "Rifleman", name: "Cpl. Guts" },
-                  { role: "Rifleman", name: "Tpr. George" },
-                  { role: "Rifleman (CLS)", name: "SnrTpr. Mooch" }
-                ]}
-              />
-              <FireteamCard 
-                name="Delta Fireteam (1-1D)"
-                leader={{ role: "Fireteam Leader (3IC)", name: "Tpr. BT" }}
-                members={[
-                  { role: "Sharpshooter", name: "SnrTpr. Greystone" },
-                  { role: "Rifleman", name: "SnrTpr. Hunter" },
-                  { role: "Medic", name: "LCpl. Ven" },
-                  { role: "LMG/GPMG", name: "Tpr. Kestrel" },
-                  { role: "Anti-Tank", name: "SnrTpr. Tomato" }
-                ]}
-              />
-            </div>
-            
-             <SectionCard 
-              title="1 Section Overflow"
-              color="border-gray-500"
-              members={[
-                { role: "Rifleman", name: "Tpr. Mauve", rank: "" },
-                { role: "Rifleman", name: "VACANT", rank: "" }
-              ]}
-              compact
-            />
-          </div>
-
-          {/* 2 Section */}
-          <div className="space-y-8">
-            <h2 className="text-3xl font-bold text-center text-green-300 border-b-2 border-green-500 pb-2">2 Section</h2>
-            
-            <SectionCard 
-              title="Section Command"
-              color="border-green-500"
-              members={[
-                { role: "Section Commander", name: "Sgt. Noble", rank: "Sgt." }
-              ]}
-            />
-            
-            <div className="grid sm:grid-cols-2 gap-6">
-              <FireteamCard 
-                name="Charlie Fireteam (1-2C)"
-                leader={{ role: "Fireteam Leader (2IC)", name: "Cpl. Frog" }}
-                members={[
-                  { role: "LMG/LSW", name: "Tpr. Bird" },
-                  { role: "Sharpshooter", name: "LCpl. David" },
-                  { role: "Rifleman", name: "VACANT" },
-                  { role: "Rifleman", name: "Cpl. Loggieman" },
-                  { role: "Rifleman (CLS)", name: "Tpr. Ryan" }
-                ]}
-              />
-              <FireteamCard 
-                name="Delta Fireteam (1-2D)"
-                leader={{ role: "Fireteam Leader (3IC)", name: "Cpl. Smudger" }}
-                members={[
-                  { role: "Sharpshooter", name: "SnrTpr. Felix" },
-                  { role: "Rifleman", name: "VACANT" },
-                  { role: "Medic", name: "LCpl. Smith" },
-                  { role: "LMG/GPMG", name: "SnrTpr. Nick" },
-                  { role: "Anti-Tank", name: "SnrTpr. Haydak" }
-                ]}
-              />
-            </div>
-
-            <SectionCard 
-              title="2 Section Overflow"
-              color="border-gray-500"
-              members={[
-                { role: "Rifleman (CLS)", name: "Sgt. Smurf", rank: "" },
-                { role: "Rifleman", name: "LCpl. Tyro", rank: "" }
-              ]}
-              compact
-            />
+          <div>
+            <h2 className={`font-display text-2xl font-bold uppercase tracking-wide ${accent.text}`}>
+              {section.name}
+            </h2>
+            <p className="font-mono text-[11px] tracking-widest text-slate-500">
+              {section.designator} · {section.callsign}
+            </p>
           </div>
         </div>
+        <Strength {...strength} />
+      </div>
 
-        {/* Support Roles */}
-        <div className="mt-20 grid md:grid-cols-3 gap-8">
-           <AdminCard title="Head Admin" members={["Lt. Sunny", "SSgt. Heroic", "SSgt. Punslinger", "Cpl. Vampire"]} />
-           <AdminCard title="Junior Admin" members={["Cpl. Chair", "Cpl. Loggieman"]} />
-           <AdminCard title="Zeus Team" members={["Cpl. Ray", "Tpr. Eivie"]} />
-        </div>
+      {/* Section command */}
+      <div className="tac-bracket border border-white/10 bg-tac-800 p-5">
+        <p className="mb-3 font-mono text-[11px] uppercase tracking-[0.3em] text-qoy-yellow/70">
+          Section Command
+        </p>
+        <ul>
+          {section.command.map((p, i) => (
+            <Position key={i} {...p} />
+          ))}
+        </ul>
+      </div>
 
+      {/* Fireteams */}
+      <div className="grid gap-6 sm:grid-cols-2">
+        {section.fireteams.map((ft) => (
+          <FireteamCard key={ft.designator} fireteam={ft} />
+        ))}
+      </div>
+
+      {/* Overflow */}
+      <div className="border border-dashed border-white/15 bg-tac-900/60 p-5">
+        <p className="mb-3 font-mono text-[11px] uppercase tracking-[0.3em] text-slate-500">
+          {section.name} Overflow
+        </p>
+        <ul>
+          {section.overflow.map((p, i) => (
+            <Position key={i} {...p} />
+          ))}
+        </ul>
       </div>
     </div>
   );
 };
 
-const SectionCard = ({ title, members, color, icon, compact }) => (
-  <motion.div 
-    whileHover={{ scale: 1.02 }}
-    className={`bg-slate-800 rounded-xl p-6 border-l-4 ${color} shadow-lg w-full ${compact ? 'opacity-80' : ''}`}
-  >
-    <div className="flex items-center gap-3 mb-4 border-b border-slate-700 pb-2">
-      {icon || <Users size={24} className="text-gray-400" />}
-      <h3 className="text-xl font-bold text-white">{title}</h3>
-    </div>
-    <div className="space-y-3">
-      {members.map((member, index) => (
-        <div key={index} className="flex justify-between items-center text-sm">
-          <span className="text-gray-400 font-medium">{member.role}</span>
-          <span className={`font-bold ${member.name === 'VACANT' ? 'text-red-500/50 italic' : 'text-white'}`}>
-            {member.name}
-          </span>
+const Structure = () => {
+  const strength = getStrength();
+
+  return (
+    <div className="min-h-screen bg-tac-950 pb-24 text-white">
+      <PageHeader
+        eyebrow="Order of Battle"
+        title="Unit ORBAT"
+        subtitle={`Organisational breakdown of ${orbatMeta.formation}, Queen's Own Yeomanry.`}
+        meta={`Updated ${orbatMeta.updated}`}
+      />
+
+      <div className="container mx-auto px-4">
+        {/* Summary bar */}
+        <div className="tac-bracket -mt-8 mb-16 flex flex-col gap-4 border border-qoy-yellow/25 bg-tac-900 p-6 sm:flex-row sm:items-center sm:justify-between">
+          <div>
+            <p className="font-mono text-[11px] uppercase tracking-[0.3em] text-qoy-yellow/70">
+              Manning Strength
+            </p>
+            <p className="mt-1 font-display text-3xl font-bold uppercase tracking-wide text-white">
+              {strength.filled}
+              <span className="text-slate-500">/{strength.total}</span>{' '}
+              <span className="text-base text-slate-400">positions filled</span>
+            </p>
+          </div>
+          <div className="flex items-center gap-6 font-mono text-[11px] uppercase tracking-widest">
+            <span className="flex items-center gap-2 text-slate-400">
+              <span className="h-2 w-2 bg-status-ok" aria-hidden="true" />
+              Filled {strength.filled}
+            </span>
+            <span className="flex items-center gap-2 text-slate-400">
+              <span className="h-2 w-2 bg-status-vacant" aria-hidden="true" />
+              Vacant {strength.vacant}
+            </span>
+          </div>
         </div>
-      ))}
-    </div>
-  </motion.div>
-);
 
-const FireteamCard = ({ name, leader, members }) => (
-  <motion.div 
-    whileHover={{ y: -5 }}
-    className="bg-slate-800/50 p-5 rounded-lg border border-slate-700 hover:border-slate-500 transition-colors"
-  >
-    <h4 className="text-lg font-bold text-blue-200 mb-3 text-center">{name}</h4>
-    
-    <div className="mb-4 bg-slate-900/50 p-2 rounded border border-slate-800">
-      <div className="text-xs text-yellow-500 uppercase font-bold tracking-wider mb-1">Leader</div>
-      <div className="text-white font-bold text-sm">{leader.name}</div>
-      <div className="text-xs text-gray-500">{leader.role}</div>
-    </div>
-
-    <div className="space-y-2">
-      {members.map((m, i) => (
-        <div key={i} className="flex justify-between text-xs border-b border-slate-700/50 pb-1 last:border-0">
-          <span className="text-gray-400">{m.role}</span>
-          <span className={m.name === 'VACANT' ? 'text-red-500/40 italic' : 'text-gray-200'}>{m.name}</span>
+        {/* Troop HQ */}
+        <div className="mb-16 flex justify-center">
+          <div className="tac-bracket w-full max-w-md border-2 border-qoy-yellow/50 bg-gradient-to-b from-cavalry-blue/50 to-tac-900 p-6 text-center">
+            <NatoSymbol
+              branch="recon"
+              echelon="platoon"
+              color="#ffd700"
+              className="mx-auto h-12 w-16"
+            />
+            <h2 className="mt-4 font-display text-2xl font-bold uppercase tracking-wide text-qoy-yellow">
+              {troopHq.name}
+            </h2>
+            <p className="font-mono text-[11px] tracking-widest text-slate-400">
+              {troopHq.designator} · Callsign {troopHq.callsign}
+            </p>
+            <ul className="mt-5 text-left">
+              {troopHq.positions.map((p, i) => (
+                <Position key={i} {...p} />
+              ))}
+            </ul>
+          </div>
         </div>
-      ))}
-    </div>
-  </motion.div>
-);
 
-const AdminCard = ({ title, members }) => (
-  <div className="bg-slate-900 border border-slate-800 p-6 rounded-lg text-center">
-    <h3 className="text-yellow-500 font-bold mb-4 uppercase tracking-widest text-sm">{title}</h3>
-    <ul className="space-y-2">
-      {members.map((m, i) => (
-        <li key={i} className="text-gray-300 font-medium">{m}</li>
-      ))}
-    </ul>
-  </div>
-);
+        {/* Sections */}
+        <div className="mx-auto grid max-w-7xl gap-12 lg:grid-cols-2 lg:gap-16">
+          {sections.map((section) => (
+            <SectionColumn key={section.designator} section={section} />
+          ))}
+        </div>
+
+        {/* Footnote */}
+        <p className="mx-auto mt-16 max-w-3xl border-l-2 border-qoy-yellow/40 pl-4 text-sm italic text-slate-500">
+          {orbatMeta.note} ORBAT current as of {orbatMeta.updated}.
+        </p>
+      </div>
+    </div>
+  );
+};
 
 export default Structure;

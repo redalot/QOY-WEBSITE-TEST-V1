@@ -1,146 +1,157 @@
 import { motion } from 'framer-motion';
-import { Shield, Radio, Crosshair, BriefcaseMedical, Flame, Target, Info } from 'lucide-react';
+import { Info } from 'lucide-react';
+import PageHeader from '../components/PageHeader';
 
-const Manual = () => {
-  return (
-    <div className="bg-slate-900 text-white min-h-screen pb-20">
-      <div className="bg-cavalry-blue py-16 text-center border-b-4 border-qoy-yellow">
-        <h1 className="text-5xl font-black text-qoy-yellow mb-4 uppercase tracking-tighter">Field Manual</h1>
-        <p className="text-xl text-blue-100 max-w-2xl mx-auto px-4 font-bold uppercase tracking-widest opacity-80">
-          Standard Operating Procedures & Equipment Loadouts
-        </p>
-      </div>
+const RIFLE_SECTION = {
+  image: 'qoy-rifle-section.png',
+  imageAlt: 'Rifle section composition infographic',
+  heading: 'Rifle Section Composition',
+  note: 'The rifle section is the core combat element of our unit, split into Charlie and Delta fireteams for tactical flexibility.',
+  groups: [
+    {
+      name: 'Charlie Fireteam',
+      loadouts: [
+        { role: 'Section Commander', weapon: 'L85A2 UGL', secondary: 'NLAW', equipment: 'LR Radio' },
+        { role: 'Sharpshooter', weapon: 'L129A1', secondary: 'ILAW' },
+        { role: 'Minimi Gunner', weapon: 'L110A1' },
+        { role: 'Medic', weapon: 'L85A2', secondary: 'ILAW' },
+      ],
+    },
+    {
+      name: 'Delta Fireteam',
+      loadouts: [
+        { role: 'Fire Team Leader', weapon: 'L85A2', secondary: 'NLAW' },
+        { role: 'Rifleman', weapon: 'L85A2', secondary: 'NLAW' },
+        { role: 'LSW Gunner', weapon: 'L86A2 LSW', secondary: 'ILAW' },
+        { role: 'Medic', weapon: 'L85A2', secondary: 'ILAW' },
+      ],
+    },
+  ],
+};
 
-      <div className="container mx-auto px-4 py-16">
-        
-        {/* Rifle Section Loadout */}
-        <section className="mb-32">
-          <div className="flex flex-col lg:flex-row gap-12 items-start">
-            {/* Infographic side */}
-            <motion.div 
-              initial={{ opacity: 0, x: -20 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true }}
-              className="lg:w-1/2 w-full sticky top-24"
-            >
-              <h2 className="text-4xl font-black text-qoy-yellow mb-8 uppercase tracking-tighter">Rifle Section Composition</h2>
-              <div className="bg-white p-4 rounded-sm shadow-2xl border-4 border-qoy-yellow/20">
-                 <img 
-                   src={`${import.meta.env.BASE_URL}qoy-rifle-section.png`} 
-                   alt="Rifle Section Infographic" 
-                   className="w-full h-auto shadow-inner"
-                 />
-              </div>
-              <div className="mt-6 flex items-start gap-4 text-gray-400 bg-slate-800 p-6 rounded-sm border border-white/5">
-                <Info className="text-qoy-yellow flex-shrink-0" size={24} />
-                <p className="text-sm italic">"The rifle section is the core combat element of our unit, split into Charlie and Delta fireteams for tactical flexibility."</p>
-              </div>
-            </motion.div>
-
-            {/* Cards side */}
-            <div className="lg:w-1/2 w-full space-y-12">
-               {/* Charlie Fireteam */}
-               <div>
-                  <h3 className="text-2xl font-black text-white mb-6 uppercase tracking-widest border-b-2 border-qoy-yellow/30 pb-2">Charlie Fireteam</h3>
-                  <div className="space-y-4">
-                    <LoadoutCard role="Section Commander" weapon="L85A2 UGL" secondary="NLAW" equipment="LR Radio" />
-                    <LoadoutCard role="Sharpshooter" weapon="L129A1" secondary="ILAW" />
-                    <LoadoutCard role="Minimi Gunner" weapon="L110A1" />
-                    <LoadoutCard role="Medic" weapon="L85A2" secondary="ILAW" />
-                  </div>
-               </div>
-
-               {/* Delta Fireteam */}
-               <div>
-                  <h3 className="text-2xl font-black text-white mb-6 uppercase tracking-widest border-b-2 border-qoy-yellow/30 pb-2">Delta Fireteam</h3>
-                  <div className="space-y-4">
-                    <LoadoutCard role="Fire Team Leader" weapon="L85A2" secondary="NLAW" />
-                    <LoadoutCard role="Rifleman" weapon="L85A2" secondary="NLAW" />
-                    <LoadoutCard role="LSW Gunner" weapon="L86A2 LSW" secondary="ILAW" />
-                    <LoadoutCard role="Medic" weapon="L85A2" secondary="ILAW" />
-                  </div>
-               </div>
-            </div>
-          </div>
-        </section>
-
-        {/* Fire Support Group */}
-        <section className="mb-32">
-          <div className="flex flex-col lg:flex-row-reverse gap-12 items-start">
-            {/* Infographic side */}
-            <motion.div 
-              initial={{ opacity: 0, x: 20 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true }}
-              className="lg:w-1/2 w-full sticky top-24"
-            >
-              <h2 className="text-4xl font-black text-qoy-yellow mb-8 uppercase tracking-tighter text-right">Fire Support Group</h2>
-              <div className="bg-white p-4 rounded-sm shadow-2xl border-4 border-qoy-yellow/20">
-                 <img 
-                   src={`${import.meta.env.BASE_URL}qoy-fire-support-group.png`} 
-                   alt="Fire Support Group Infographic" 
-                   className="w-full h-auto shadow-inner"
-                 />
-              </div>
-            </motion.div>
-
-            {/* Cards side */}
-            <div className="lg:w-1/2 w-full space-y-12">
-               {/* Gun Team */}
-               <div>
-                  <h3 className="text-2xl font-black text-white mb-6 uppercase tracking-widest border-b-2 border-qoy-yellow/30 pb-2">Gun Team</h3>
-                  <div className="space-y-4">
-                    <LoadoutCard role="Section Commander" weapon="L85A2" secondary="Javelin Tube / NLAW" equipment="LR Radio" />
-                    <LoadoutCard role="GPMG Gunner" weapon="L7A2 GPMG" equipment="Static Tripod" />
-                    <LoadoutCard role="GPMG Gunner" weapon="L7A2 GPMG" equipment="Static Tripod" />
-                    <LoadoutCard role="Medic" weapon="L85A2" secondary="Javelin Tube / ILAW" />
-                  </div>
-               </div>
-
-               {/* AT Team */}
-               <div>
-                  <h3 className="text-2xl font-black text-white mb-6 uppercase tracking-widest border-b-2 border-qoy-yellow/30 pb-2">Anti-Tank Team</h3>
-                  <div className="space-y-4">
-                    <LoadoutCard role="Fire Team Leader" weapon="L85A2" secondary="Javelin Tube / NLAW" />
-                    <LoadoutCard role="Javelin Gunner" weapon="L85A2" secondary="Javelin Launcher + CLU" />
-                    <LoadoutCard role="MAAWs Gunner" weapon="L85A2" secondary="MAAWS Mk4" />
-                    <LoadoutCard role="Rifleman" weapon="L85A2" secondary="Javelin Tube / NLAW" />
-                  </div>
-               </div>
-            </div>
-          </div>
-        </section>
-
-      </div>
-    </div>
-  );
+const FIRE_SUPPORT = {
+  image: 'qoy-fire-support-group.png',
+  imageAlt: 'Fire support group composition infographic',
+  heading: 'Fire Support Group',
+  groups: [
+    {
+      name: 'Gun Team',
+      loadouts: [
+        { role: 'Section Commander', weapon: 'L85A2', secondary: 'Javelin Tube / NLAW', equipment: 'LR Radio' },
+        { role: 'GPMG Gunner', weapon: 'L7A2 GPMG', equipment: 'Static Tripod' },
+        { role: 'GPMG Gunner', weapon: 'L7A2 GPMG', equipment: 'Static Tripod' },
+        { role: 'Medic', weapon: 'L85A2', secondary: 'Javelin Tube / ILAW' },
+      ],
+    },
+    {
+      name: 'Anti-Tank Team',
+      loadouts: [
+        { role: 'Fire Team Leader', weapon: 'L85A2', secondary: 'Javelin Tube / NLAW' },
+        { role: 'Javelin Gunner', weapon: 'L85A2', secondary: 'Javelin Launcher + CLU' },
+        { role: 'MAAWs Gunner', weapon: 'L85A2', secondary: 'MAAWS Mk4' },
+        { role: 'Rifleman', weapon: 'L85A2', secondary: 'Javelin Tube / NLAW' },
+      ],
+    },
+  ],
 };
 
 const LoadoutCard = ({ role, weapon, secondary, equipment }) => (
-  <motion.div 
-    whileHover={{ x: 10 }}
-    className="bg-slate-800/80 p-6 rounded-sm border-l-4 border-qoy-yellow hover:bg-cavalry-blue/40 shadow-xl transition-all"
+  <motion.article
+    whileHover={{ x: 6 }}
+    className="tac-bracket border border-white/10 border-l-2 border-l-qoy-yellow bg-tac-850 p-5 transition-colors hover:border-qoy-yellow/40"
   >
-    <h4 className="text-xl font-black text-white uppercase tracking-tighter mb-2">{role}</h4>
-    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-      <div className="text-sm">
-        <span className="text-qoy-yellow font-black uppercase text-xs tracking-widest block mb-1">Primary Weapon</span>
-        <span className="text-white font-bold">{weapon}</span>
+    <h4 className="mb-4 font-display text-lg font-semibold uppercase tracking-wide text-white">
+      {role}
+    </h4>
+    <dl className="grid gap-4 sm:grid-cols-2">
+      <div>
+        <dt className="mb-1 font-mono text-[10px] uppercase tracking-widest text-qoy-yellow/70">
+          Primary
+        </dt>
+        <dd className="text-sm font-semibold text-white">{weapon}</dd>
       </div>
       {secondary && (
-        <div className="text-sm">
-          <span className="text-red-400 font-black uppercase text-xs tracking-widest block mb-1">Launcher / Secondary</span>
-          <span className="text-white font-bold">{secondary}</span>
+        <div>
+          <dt className="mb-1 font-mono text-[10px] uppercase tracking-widest text-red-400/80">
+            Launcher / Secondary
+          </dt>
+          <dd className="text-sm font-semibold text-white">{secondary}</dd>
         </div>
       )}
       {equipment && (
-        <div className="text-sm col-span-full pt-2 border-t border-white/5">
-          <span className="text-blue-400 font-black uppercase text-xs tracking-widest block mb-1">Special Equipment</span>
-          <span className="text-white font-bold">{equipment}</span>
+        <div className="border-t border-white/5 pt-3 sm:col-span-2">
+          <dt className="mb-1 font-mono text-[10px] uppercase tracking-widest text-sky-400/80">
+            Special Equipment
+          </dt>
+          <dd className="text-sm font-semibold text-white">{equipment}</dd>
         </div>
       )}
+    </dl>
+  </motion.article>
+);
+
+const ManualSection = ({ data, reverse }) => (
+  <section className="mb-28">
+    <div className={`flex flex-col gap-12 lg:items-start ${reverse ? 'lg:flex-row-reverse' : 'lg:flex-row'}`}>
+      <motion.div
+        initial={{ opacity: 0, x: reverse ? 20 : -20 }}
+        whileInView={{ opacity: 1, x: 0 }}
+        viewport={{ once: true }}
+        className="w-full lg:sticky lg:top-28 lg:w-1/2"
+      >
+        <h2
+          className={`mb-6 font-display text-3xl font-bold uppercase tracking-wide text-qoy-yellow md:text-4xl ${reverse ? 'lg:text-right' : ''}`}
+        >
+          {data.heading}
+        </h2>
+        <div className="tac-bracket border border-qoy-yellow/20 bg-white p-3 shadow-2xl">
+          <img
+            src={`${import.meta.env.BASE_URL}${data.image}`}
+            alt={data.imageAlt}
+            loading="lazy"
+            className="h-auto w-full"
+          />
+        </div>
+        {data.note && (
+          <div className="mt-5 flex items-start gap-4 border border-white/10 bg-tac-850 p-5">
+            <Info className="shrink-0 text-qoy-yellow" size={20} />
+            <p className="text-sm italic leading-relaxed text-slate-400">{data.note}</p>
+          </div>
+        )}
+      </motion.div>
+
+      <div className="w-full space-y-10 lg:w-1/2">
+        {data.groups.map((group) => (
+          <div key={group.name}>
+            <h3 className="mb-5 border-b border-qoy-yellow/30 pb-2 font-display text-xl font-semibold uppercase tracking-[0.2em] text-white">
+              {group.name}
+            </h3>
+            <div className="space-y-4">
+              {group.loadouts.map((l, i) => (
+                <LoadoutCard key={i} {...l} />
+              ))}
+            </div>
+          </div>
+        ))}
+      </div>
     </div>
-  </motion.div>
+  </section>
+);
+
+const Manual = () => (
+  <div className="min-h-screen bg-tac-950 pb-24 text-white">
+    <PageHeader
+      eyebrow="Standard Operating Procedures"
+      title="Field Manual"
+      subtitle="Section composition and equipment loadouts."
+      meta="Restricted · Training Use"
+    />
+
+    <div className="container mx-auto px-4 py-20">
+      <ManualSection data={RIFLE_SECTION} />
+      <ManualSection data={FIRE_SUPPORT} reverse />
+    </div>
+  </div>
 );
 
 export default Manual;

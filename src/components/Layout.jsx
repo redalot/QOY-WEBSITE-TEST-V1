@@ -3,7 +3,7 @@ import Footer from './Footer';
 
 const Layout = ({ children }) => {
   return (
-    <div className="flex flex-col min-h-screen bg-gray-900 text-white font-sans">
+    <div className="flex min-h-screen flex-col bg-tac-950 font-sans text-slate-200">
       <Header />
       <main className="flex-grow">
         {children}

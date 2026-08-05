@@ -1,62 +1,105 @@
-import { Link } from 'react-router-dom';
+import { NavLink, Link } from 'react-router-dom';
 import { Menu, X } from 'lucide-react';
 import { useState } from 'react';
+
+const NAV_ITEMS = [
+  { to: '/', label: 'Home' },
+  { to: '/about', label: 'About Us' },
+  { to: '/structure', label: 'Structure' },
+  { to: '/training', label: 'Training' },
+  { to: '/manual', label: 'Field Manual' },
+  { to: '/gallery', label: 'Gallery' },
+];
 
 const Header = () => {
   const [isOpen, setIsOpen] = useState(false);
 
   return (
-    <header className="bg-cavalry-blue text-white shadow-lg sticky top-0 z-50 border-b border-qoy-yellow/30">
-      <div className="container mx-auto px-4 py-3 flex justify-between items-center">
-        <Link to="/" className="flex items-center space-x-3 hover:opacity-80 transition-opacity">
-          <img src={`${import.meta.env.BASE_URL}qoy-badge.jpg`} alt="QOY Badge" className="h-12 w-12 rounded-full border-2 border-qoy-yellow shadow-md" />
-          <span className="text-xl font-bold tracking-wider text-qoy-yellow uppercase">Queen's Own Yeomanry</span>
+    <header className="sticky top-0 z-50 border-b border-qoy-yellow/30 bg-tac-950/95 shadow-lg backdrop-blur">
+      {/* Classification strip */}
+      <div className="hidden items-center justify-between border-b border-white/5 px-4 py-1 font-mono text-[10px] uppercase tracking-[0.3em] text-slate-500 md:flex">
+        <span>A Sqn · 1 Troop</span>
+        <span className="text-qoy-yellow/60">Ops: Tue &amp; Sun · 20:00 UK</span>
+      </div>
+
+      <div className="container mx-auto flex items-center justify-between px-4 py-3">
+        <Link
+          to="/"
+          className="flex items-center gap-3 transition-opacity hover:opacity-80"
+          onClick={() => setIsOpen(false)}
+        >
+          <img
+            src={`${import.meta.env.BASE_URL}qoy-badge.jpg`}
+            alt=""
+            className="h-11 w-11 rounded-full border-2 border-qoy-yellow shadow-md"
+          />
+          <span className="flex flex-col leading-none">
+            <span className="font-display text-lg font-bold uppercase tracking-wide text-qoy-yellow">
+              Queen's Own Yeomanry
+            </span>
+            <span className="mt-1 font-mono text-[10px] uppercase tracking-[0.3em] text-slate-500">
+              Light Cavalry · Recce
+            </span>
+          </span>
         </Link>
 
-        {/* Desktop Navigation */}
-        <nav className="hidden md:flex space-x-8 font-semibold">
-          <Link to="/" className="hover:text-qoy-yellow transition-colors relative group">
-            Home
-            <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-qoy-yellow transition-all group-hover:w-full"></span>
-          </Link>
-          <Link to="/about" className="hover:text-qoy-yellow transition-colors relative group">
-            About Us
-            <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-qoy-yellow transition-all group-hover:w-full"></span>
-          </Link>
-          <Link to="/structure" className="hover:text-qoy-yellow transition-colors relative group">
-            Structure
-            <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-qoy-yellow transition-all group-hover:w-full"></span>
-          </Link>
-          <Link to="/training" className="hover:text-qoy-yellow transition-colors relative group">
-            Training
-            <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-qoy-yellow transition-all group-hover:w-full"></span>
-          </Link>
-          <Link to="/manual" className="hover:text-qoy-yellow transition-colors relative group">
-            Field Manual
-            <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-qoy-yellow transition-all group-hover:w-full"></span>
-          </Link>
-          <Link to="/gallery" className="hover:text-qoy-yellow transition-colors relative group">
-            Gallery
-            <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-qoy-yellow transition-all group-hover:w-full"></span>
-          </Link>
+        {/* Desktop navigation */}
+        <nav className="hidden gap-7 font-display text-sm font-medium uppercase tracking-widest md:flex">
+          {NAV_ITEMS.map(({ to, label }) => (
+            <NavLink
+              key={to}
+              to={to}
+              end={to === '/'}
+              className={({ isActive }) =>
+                `group relative transition-colors ${
+                  isActive ? 'text-qoy-yellow' : 'text-slate-300 hover:text-qoy-yellow'
+                }`
+              }
+            >
+              {({ isActive }) => (
+                <>
+                  {label}
+                  <span
+                    className={`absolute -bottom-1.5 left-0 h-0.5 bg-qoy-yellow transition-all ${
+                      isActive ? 'w-full' : 'w-0 group-hover:w-full'
+                    }`}
+                  />
+                </>
+              )}
+            </NavLink>
+          ))}
         </nav>
 
-        {/* Mobile Menu Button */}
-        <button onClick={() => setIsOpen(!isOpen)} className="md:hidden text-qoy-yellow focus:outline-none">
+        {/* Mobile menu button */}
+        <button
+          onClick={() => setIsOpen(!isOpen)}
+          className="text-qoy-yellow md:hidden"
+          aria-label={isOpen ? 'Close navigation menu' : 'Open navigation menu'}
+          aria-expanded={isOpen}
+        >
           {isOpen ? <X size={28} /> : <Menu size={28} />}
         </button>
       </div>
 
-      {/* Mobile Navigation */}
+      {/* Mobile navigation */}
       {isOpen && (
-        <nav className="md:hidden bg-cavalry-light pb-4 border-t border-qoy-yellow/20">
-          <div className="flex flex-col space-y-2 px-4 pt-2">
-            <Link to="/" className="block py-2 hover:text-qoy-yellow border-b border-white/10" onClick={() => setIsOpen(false)}>Home</Link>
-            <Link to="/about" className="block py-2 hover:text-qoy-yellow border-b border-white/10" onClick={() => setIsOpen(false)}>About Us</Link>
-            <Link to="/structure" className="block py-2 hover:text-qoy-yellow border-b border-white/10" onClick={() => setIsOpen(false)}>Structure</Link>
-            <Link to="/training" className="block py-2 hover:text-qoy-yellow border-b border-white/10" onClick={() => setIsOpen(false)}>Training</Link>
-            <Link to="/manual" className="block py-2 hover:text-qoy-yellow border-b border-white/10" onClick={() => setIsOpen(false)}>Field Manual</Link>
-            <Link to="/gallery" className="block py-2 hover:text-qoy-yellow" onClick={() => setIsOpen(false)}>Gallery</Link>
+        <nav className="border-t border-qoy-yellow/20 bg-tac-900 pb-4 md:hidden">
+          <div className="flex flex-col px-4 pt-2 font-display uppercase tracking-widest">
+            {NAV_ITEMS.map(({ to, label }) => (
+              <NavLink
+                key={to}
+                to={to}
+                end={to === '/'}
+                className={({ isActive }) =>
+                  `border-b border-white/10 py-3 last:border-0 ${
+                    isActive ? 'text-qoy-yellow' : 'text-slate-300'
+                  }`
+                }
+                onClick={() => setIsOpen(false)}
+              >
+                {label}
+              </NavLink>
+            ))}
           </div>
         </nav>
       )}
